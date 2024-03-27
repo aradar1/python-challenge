@@ -37,11 +37,11 @@ with open(csvpath, 'r') as csvfile:
 
     analysispath = os.path.join('Analysis','ElectionResults.txt')
     with open(analysispath, 'w') as textfile: # Export election results to text file
-         sys.stdout = textfile
-         print("Election Results")
-         print("-----------------------------------------------")
-         print(f"Total Votes: {total_votes}")
-         print("-----------------------------------------------")
-         print(result)
-         print("-----------------------------------------------")
-         print(f"Winner: {winner}")
+         
+         textfile.write("Election Results\n")
+         textfile.write("-----------------------------------------------\n")
+         textfile.write(f"Total Votes: {total_votes}\n")
+         textfile.write("-----------------------------------------------\n")
+         textfile.write(f"{result} \n")
+         textfile.write("-----------------------------------------------\n")
+         textfile.write(f"Winner: {winner}")
