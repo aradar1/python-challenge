@@ -4,12 +4,15 @@ import sys
 
 filename = 'budget_data.csv'
 csvpath = os.path.join('Resources',filename)
-date = {}
 num_Dates = 0
 total_Net = 0
 ave_Change = 0
 greatest_Inc = 0
 greatest_Dec = 0
+final_val = 0
+first_val = 1
+first_profit = 0
+initial_val = 0
 inc_Profits = ""
 dec_Profits = ""
 with open(csvpath) as csvfile:
@@ -22,17 +25,23 @@ with open(csvpath) as csvfile:
   
     for row in csvreader:
         num_toInt = int(row[1]) #change from list to int
-        total_Net = total_Net + abs(num_toInt) #absolute value to compute for net losses/profit
-        ave_Change = ave_Change + num_toInt #change with losses and profit
+        total_Net = total_Net + num_toInt 
         num_Dates = num_Dates + 1 #count number of dates in list per iteration
-        if(num_toInt > greatest_Inc): #compare with the greatest increase, change if greater than
-            greatest_Inc = num_toInt
+        if(greatest_Inc > final_val - num_toInt): #compare with the greatest increase, change if greater than
+            greatest_Inc = final_val - num_toInt
             inc_Profits = row[0]
-        if(num_toInt < greatest_Dec): #compare with the greatest decrease, change if less than
-            greatest_Dec = num_toInt
+        if(greatest_Dec < final_val - num_toInt): #compare with the greatest decrease, change if less than
+            greatest_Dec = final_val - num_toInt
             dec_Profits = row[0]
+        final_val = num_toInt
 
-    ave_Change = (ave_Change/num_Dates) #final computation for average to include all dates
+        if first_val==1:
+            first_profit = int(row[1])
+            first_val =0
+        if num_Dates==86:
+            final_val = int(row[1])
+
+    ave_Change = (final_val - first_profit)/(num_Dates-1) #final computation for average to include all dates
 
 
 
@@ -46,14 +55,14 @@ with open(csvpath) as csvfile:
 
     analysispath = os.path.join('Analysis','FinancialAnalysis.txt')
     with open(analysispath,'w') as textfile: #Save to text file
-        sys.stdout = textfile
-        print('FINANCIAL ANALYSIS')
-        print('-----------------------------------------------')
-        print(f'Total Months: {num_Dates}')
-        print(f'Total: {total_Net}')
-        print(f'Average Change: {ave_Change}')
-        print(f'Greatest Increase in Profits: {inc_Profits} {greatest_Inc}')
-        print(f'Greatest Decrease in Profits: {dec_Profits} {greatest_Dec}')
+        
+        textfile.write('FINANCIAL ANALYSIS\n')
+        textfile.write('-----------------------------------------------\n')
+        textfile.write(f'Total Months: {num_Dates}\n')
+        textfile.write(f'Total: {total_Net}\n')
+        textfile.write(f'Average Change: {ave_Change}\n')
+        textfile.write(f'Greatest Increase in Profits: {inc_Profits} {greatest_Inc}\n')
+        textfile.write(f'Greatest Decrease in Profits: {dec_Profits} {greatest_Dec}\n')
 
  
 
