@@ -2,8 +2,8 @@ import os
 import csv
 import sys
 
-filename = 'budget_data.csv'
-csvpath = os.path.join('Resources',filename)
+
+csvpath = os.path.join('Resources','budget_data.csv')
 num_Dates = 0
 total_Net = 0
 ave_Change = 0
